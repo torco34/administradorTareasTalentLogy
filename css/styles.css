@@ -54,7 +54,6 @@ form textarea {
   margin-bottom: 10px;
   padding: 5px;
   width: 100%;
-
 }
 form button[type="submit"] {
   background-color: var(--purple2);
@@ -67,6 +66,28 @@ form button[type="submit"] {
 form input {
   font-size: 2rem;
 }
-.progresso-card{
-  
+.progresso-card {
+  width: 100%;
+  height: 100vh;
+  border: solid 2px red;
+}
+.list-completada {
+  width: 100%;
+  height: 100vh;
+  border: solid 2px red;
+}
+/* section de la card tenderizer*/
+
+.card-javascript li a{
+  display: flex;
+  list-style: none;
+  text-decoration: none;
+  border: solid 2px red;
+}
+
+.progresso-card {
+  /* padding: 40px 20px; */
+  /* text-decoration: none; */
+  /* list-style: none; */
+  /* border: solid 2px red; */
 }

@@ -7,6 +7,7 @@ const listaEnProgreso = document.querySelector("#lista-en-progreso");
 const listaCompletadas = document.querySelector("#lista-completadas");
 // Crear array vacío para almacenar las tareas
 let tareas = [];
+localStorage.setItem("notes", JSON.stringify(notes));
 // Función para crear una tarea
 function crearTarea(titulo, descripcion, fecha) {
   const tarea = {
@@ -28,9 +29,10 @@ function mostrarTareas() {
     const itemTarea = document.createElement("li");
     console.log(itemTarea);
     itemTarea.innerHTML = `
-        <strong>${tarea.titulo}</strong>
+        <div class=" card-javascript">
+        <strong class="">${tarea.titulo}</strong>
         <p>${tarea.descripcion}</p>
-        <p>${tarea.fecha}</p>
+        <p>${tarea.fecha}</p></div>
       `;
     console.log(itemTarea.innerHTML);
     itemTarea.draggable = true;

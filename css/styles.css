@@ -86,7 +86,7 @@ form input {
 }
 .lista-pendientes {
   width: 100%;
-  height: 100vh;
+  height: 20vh;
   border: solid 2px red;
 }
 .progresso-card {

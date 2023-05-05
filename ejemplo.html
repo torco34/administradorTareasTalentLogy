@@ -12,29 +12,38 @@
   </head>
   <body>
     <div class="container">
-      <h1>Lista de tareas</h1>
-      <div class="new-task">
-        <h2>Nueva tarea</h2>
+      <h1>Aplicación de tareas</h1>
+
+      <!-- Sección para crear nuevas tareas -->
+      <section class="add-task">
+        <h2>Agregar tarea</h2>
         <form>
-          <label for="title">Título:</label>
-          <input type="text" id="title" required />
-          <label for="description">Descripción:</label>
-          <textarea id="description"></textarea>
-          <label for="due-date">Fecha de vencimiento:</label>
-          <input type="date" id="due-date" required />
+          <label for="task-title">Título:</label>
+          <input type="text" id="task-title" required />
+          <label for="task-description">Descripción:</label>
+          <textarea id="task-description"></textarea>
+          <label for="task-date">Fecha de vencimiento:</label>
+          <input type="date" id="task-date" required />
           <button type="submit">Agregar tarea</button>
         </form>
-      </div>
-      <div class="tasks">
-        <h2>Tareas pendientes</h2>
-        <ul id="pending-tasks" class="task-list"></ul>
-        <h2>Tareas en progreso</h2>
-        <ul id="in-progress-tasks" class="task-list"></ul>
-        <h2>Tareas completadas</h2>
-        <ul id="completed-tasks" class="task-list"></ul>
-      </div>
+      </section>
+
+      <!-- Sección para ver todas las tareas -->
+      <section class="all-tasks">
+        <h2>Todas las tareas</h2>
+        <ul id="pending-tasks" class="task-list">
+          <h3>Pendiente</h3>
+        </ul>
+        <ul id="in-progress-tasks" class="task-list">
+          <h3>En progreso</h3>
+        </ul>
+        <ul id="completed-tasks" class="task-list">
+          <h3>Completado</h3>
+        </ul>
+      </section>
     </div>
+
     <script src="./bootstrap/js/bootstrap.min.js"></script>
-    <script src="./js/index.js"></script>
+    <script src="./js/ejemplo.js"></script>
   </body>
 </html>

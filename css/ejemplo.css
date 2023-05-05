@@ -1,3 +1,11 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
 .container {
   max-width: 800px;
   margin: 0 auto;
@@ -8,70 +16,63 @@ h1 {
   text-align: center;
 }
 
-.new-task {
-  margin-bottom: 40px;
+h2 {
+  margin-top: 0;
 }
 
-.task-list {
-  list-style: none;
-  padding: 0;
-}
-
-.task {
-  background-color: #f2f2f2;
-  padding: 10px;
-  margin-bottom: 10px;
-  cursor: pointer;
-}
-
-.task:hover {
-  background-color: #ddd;
-}
-
-.task.done {
-  background-color: #d9ffd9;
-}
-
-.task.in-progress {
-  background-color: #fffbdd;
-}
-
-.task.dragging {
-  opacity: 0.5;
-}
-
-.task.placeholder {
-  border: 2px dashed #bbb;
-  height: 40px;
-}
-
-ul {
-  padding-left: 0;
-  margin-top: 10px;
-  margin-bottom: 30px;
+form {
+  display: flex;
+  flex-direction: column;
 }
 
 label {
-  display: block;
-  margin-bottom: 5px;
+  font-weight: bold;
+  margin-top: 10px;
 }
 
-input[type="text"],
-textarea,
-input[type="date"] {
-  width: 100%;
-  padding: 5px;
+input,
+textarea {
   margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 1px 1px 5px #ccc;
 }
 
-button[type="submit"] {
+button {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
   background-color: #4caf50;
   color: white;
-  padding: 10px 20px;
-  border: none;
   cursor: pointer;
 }
 
-button[type="submit"]:hover {
+button:hover {
   background-color: #3e8e41;
+}
+
+.task-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 20px;
+  width: 100%;
+  height: 50vh;
+  border: solid 3px red;
+
+}
+
+.task {
+  background-color: #f1f1f1;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  cursor: move;
+  width: 50%;
+  height: 20vh;
+  border: solid 3px rgb(248, 149, 149);
 }

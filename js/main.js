@@ -97,7 +97,27 @@ listaCompletadas.addEventListener("dragover", (e) => {
 });
 function moverAEstadoEnProgreso(tareaId) {
   // Buscar la tarea correspondiente en el array de tareas
+  // const tarea = tareas.find((t) => t.id === tareaId);
+  // if (tarea) {
+  //   tarea.estado = "progreso";
+  //   mostrarTareas();
+  // } else {
+  //   console.error("No se encontró la tarea con el ID:", tareaId);
+  // }
+
+  if (!tareaId) {
+    console.error("El ID de la tarea es inválido");
+    return;
+  }
+
+  // Buscar la tarea correspondiente en el array de tareas
   const tarea = tareas.find((t) => t.id === tareaId);
+
+  // Verificar si se encontró la tarea
+  if (!tarea) {
+    console.error(`No se encontró la tarea con el ID: ${tareaId}`);
+    return;
+  }
 
   // Cambiar el estado de la tarea
   tarea.estado = "progreso";

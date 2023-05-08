@@ -26,10 +26,6 @@ function agregarTarea(event) {
 
 // Función para mostrar la lista de tareas
 function mostrarTareas() {
-  // document.getElementById("pendientes").innerHTML = "";
-  // document.getElementById("enproceso").innerHTML = "";
-  // document.getElementById("hechas").innerHTML = "";
-
   pendientes.innerHTML = "";
   enProceso.innerHTML = "";
   hechas.innerHTML = "";
@@ -39,10 +35,6 @@ function mostrarTareas() {
     divTarea.id = tarea.id;
     divTarea.className = "tarea";
     divTarea.draggable = true;
-    // divTarea.ondragstart = function (event) {
-    //   event.dataTransfer.setData("id", event.target.id);
-    //   //  event.dataTransfer.setData("text/plain", event.target.id;)
-    // };
 
     divTarea.addEventListener("dragstart", (e) => {
       e.dataTransfer.setData("id", e.target.id);
@@ -126,41 +118,18 @@ function editarTarea(id) {
   }
 }
 
-// Función para permitir el arrastre de elementos
-// function allowDrop(event) {
-//   event.preventDefault();
-// }
-
-// // Función para mover un elemento a otra sección
-// function drop(event, seccion) {
-//   event.preventDefault();
-//   var data = event.dataTransfer.setData("text/plain", tareas.id);
-//   console.log(data);
-//   var elemento = document.getElementById(data);
-
-//   var seccionActual = elemento.parentNode.id;
-
-//   // Si la sección actual es distinta de la sección destino
-//   if (seccionActual != seccion) {
-//     var seccionDestino = document.getElementById(seccion);
-//     seccionDestino.appendChild(elemento);
-//   }
-// }
 pendientes.addEventListener("dragover", (e) => {
   e.preventDefault();
   const tarea = document.querySelector(".dragging");
   pendientes.appendChild(tarea);
-  // moverTarea(tarea.dataset.id, "pendientes");
 });
 enProceso.addEventListener("dragover", (e) => {
   e.preventDefault();
   const tarea = document.querySelector(".dragging");
   enProceso.appendChild(tarea);
-  // moverTarea(tarea.dataset.id, "progreso");
 });
 hechas.addEventListener("dragover", (e) => {
   e.preventDefault();
   const tarea = document.querySelector(".dragging");
   hechas.appendChild(tarea);
-  // moverTarea(tarea.dataset.id, "completadas");
 });

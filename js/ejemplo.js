@@ -4,6 +4,13 @@ let enProceso = document.getElementById("enproceso");
 let hechas = document.getElementById("hechas");
 let tareas = [];
 console.log(pendientes);
+
+// Verificar si hay datos en localStorage
+if (localStorage.getItem("tareas")) {
+  tareas = JSON.parse(localStorage.getItem("tareas"));
+  mostrarTareas();
+}
+
 // Función para agregar una tarea a la lista de tareas
 function agregarTarea(event) {
   event.preventDefault();
@@ -22,6 +29,8 @@ function agregarTarea(event) {
   document.getElementById("titulo").value = "";
   document.getElementById("descripcion").value = "";
   document.getElementById("fecha").value = "";
+  // Guardar datos en localStorage
+  localStorage.setItem("tareas", JSON.stringify(tareas));
 }
 
 // Función para mostrar la lista de tareas
@@ -70,6 +79,7 @@ function mostrarTareas() {
     divTarea.appendChild(divBotones);
     if (tarea.estado == "pendiente") {
       document.getElementById("pendientes").appendChild(divTarea);
+      
     } else if (tarea.estado == "enproceso") {
       document.getElementById("enproceso").appendChild(divTarea);
     } else if (tarea.estado == "hecha") {
@@ -83,9 +93,11 @@ function eliminarTarea(id) {
   for (let i = 0; i < tareas.length; i++) {
     if (tareas[i].id == id) {
       tareas.splice(i, 1);
+      // localStorage.removeItem(id);
       break;
     }
   }
+  localStorage.setItem("tareas", JSON.stringify(tareas));
   mostrarTareas();
 }
 
@@ -109,7 +121,10 @@ function editarTarea(id) {
             tareas[i].titulo = titulo;
             tareas[i].descripcion = descripcion;
             tareas[i].fecha = fecha;
+            localStorage.setItem("tareas", JSON.stringify(tareas));
+
             mostrarTareas();
+
             break;
           }
         }

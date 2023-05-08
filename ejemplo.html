@@ -14,40 +14,29 @@
     <header>
       <h1>Lista de Tareas</h1>
     </header>
-    <main>
-      <div
-        id="pendientes"
-        class="columna"
-        ondrop="drop(event)"
-        ondragover="allowDrop(event)"
-      >
-        <h2>Tareas Pendientes</h2>
+    <main class="container">
+      <div class="row container">
+        <div class="col form">
+          <form onsubmit="agregarTarea(event)">
+            <label for="titulo">Título:</label>
+            <input type="text" id="titulo" name="titulo" />
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" name="descripcion"></textarea>
+            <label for="fecha">Fecha límite:</label>
+            <input type="date" id="fecha" name="fecha" />
+            <button type="submit">Crear tarea</button>
+          </form>
+        </div>
+        <div id="pendientes" class="col columna">
+          <h2>Tareas Pendientes</h2>
+        </div>
+        <div id="enproceso" class="col columna">
+          <h2>Tareas en Proceso</h2>
+        </div>
+        <div id="hechas" class="col columna">
+          <h2>Tareas Hechas</h2>
+        </div>
       </div>
-      <div
-        id="enproceso"
-        class="columna"
-        ondrop="drop(event)"
-        ondragover="allowDrop(event)"
-      >
-        <h2>Tareas en Proceso</h2>
-      </div>
-      <div
-        id="hechas"
-        class="columna"
-        ondrop="drop(event)"
-        ondragover="allowDrop(event)"
-      >
-        <h2>Tareas Hechas</h2>
-      </div>
-      <form onsubmit="agregarTarea(event)">
-        <label for="titulo">Título:</label>
-        <input type="text" id="titulo" name="titulo" />
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" name="descripcion"></textarea>
-        <label for="fecha">Fecha límite:</label>
-        <input type="date" id="fecha" name="fecha" />
-        <button type="submit">Crear tarea</button>
-      </form>
     </main>
 
     <script src="./bootstrap/js/bootstrap.min.js"></script>

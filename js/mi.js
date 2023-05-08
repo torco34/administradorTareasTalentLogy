@@ -75,6 +75,7 @@ function showNotes() {
         bodyInput.value = "";
         showNotes();
         deleteButton.disabled = false;
+
         editButton.disabled = false;
         form.removeEventListener("submit", editNote);
         form.addEventListener("submit", addNote);
@@ -91,7 +92,7 @@ function showNotes() {
     // console.log(itemTarea.draggable);
     card.addEventListener("dragstart", (e) => {
       console.log(noteContainer);
-      e.dataTransfer.setData("text/plain", tarea.id);
+      e.dataTransfer.setData("text/plain", tareas.id);
       e.currentTarget.classList.add("dragging");
     });
     card.addEventListener("dragend", (e) => {
@@ -139,19 +140,19 @@ listaPendientes.addEventListener("dragover", (e) => {
   e.preventDefault();
   const tarea = document.querySelector(".dragging");
   listaPendientes.appendChild(tarea);
-  moverTarea(tarea.dataset.id, "pendientes");
+  // moverTarea(tarea.dataset.id, "pendientes");
 });
 listaEnProgreso.addEventListener("dragover", (e) => {
   e.preventDefault();
   const tarea = document.querySelector(".dragging");
   listaEnProgreso.appendChild(tarea);
-  moverTarea(tarea.dataset.id, "progreso");
+  // moverTarea(tarea.dataset.id, "progreso");
 });
 listaCompletadas.addEventListener("dragover", (e) => {
   e.preventDefault();
   const tarea = document.querySelector(".dragging");
   listaCompletadas.appendChild(tarea);
-  moverTarea(tarea.dataset.id, "completadas");
+  // moverTarea(tarea.dataset.id, "completadas");
 });
 
 // Escuchar el envío del formulario de agregar nota

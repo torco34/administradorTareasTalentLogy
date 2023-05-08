@@ -1,88 +1,110 @@
-// Obtener elementos del DOM
-const addTaskForm = document.querySelector(".add-task form");
-const pendingTasksList = document.getElementById("pending-tasks");
-const inProgressTasksList = document.getElementById("in-progress-tasks");
-const completedTasksList = document.getElementById("completed-tasks");
+// Variables globales
+var tareas = [];
 
-// Escuchar el envío del formulario de agregar
-addTaskForm.addEventListener("submit", (event) => {
-  event.preventDefault(); // Evitar el envío del formulario
-
-  // Obtener los valores de los campos del formulario
-  const taskTitle = document.getElementById("task-title").value;
-  const taskDescription = document.getElementById("task-description").value;
-  const taskDate = document.getElementById("task-date").value;
-
-  // Crear un nuevo elemento de tarea
-  const newTask = document.createElement("li");
-  newTask.classList.add("task");
-  newTask.draggable = true;
-  newTask.innerHTML = `
-		<h4>${taskTitle}</h4>
-		<p>${taskDescription}</p>
-		<span>Fecha de vencimiento: ${taskDate}</span>
-		<select>
-			<option value="pending">Pendiente</option>
-			<option value="in-progress">En progreso</option>
-			<option value="completed">Completado</option>
-		</select>
-	`;
-
-  // Agregar el nuevo elemento de tarea a la lista "Pendiente"
-  pendingTasksList.appendChild(newTask);
-
-  // Limpiar los campos del formulario
-  addTaskForm.reset();
-});
-
-// Escuchar el arrastrar y soltar de las tareas
-let task;
-
-function handleDragStart(event) {
-  task = event.target;
-  event.dataTransfer.effectAllowed = "move";
-  event.dataTransfer.setData("text/html", task.outerHTML);
-  task.classList.add("dragging");
-}
-
-function handleDragOver(event) {
+// Función para agregar una tarea a la lista de tareas
+function agregarTarea(event) {
   event.preventDefault();
-  event.dataTransfer.dropEffect = "move";
-  task.classList.add("over");
+  var titulo = document.getElementById("titulo").value;
+  var descripcion = document.getElementById("descripcion").value;
+  var fecha = document.getElementById("fecha").value;
+  var tarea = {
+    id: Date.now(),
+    titulo: titulo,
+    descripcion: descripcion,
+    fecha: fecha,
+    estado: "pendiente",
+  };
+  tareas.push(tarea);
+  mostrarTareas();
+  document.getElementById("titulo").value = "";
+  document.getElementById("descripcion").value = "";
+  document.getElementById("fecha").value = "";
 }
 
-function handleDragLeave(event) {
-  task.classList.remove("over");
+// Función para mostrar la lista de tareas
+function mostrarTareas() {
+  document.getElementById("pendientes").innerHTML = "";
+  document.getElementById("enproceso").innerHTML = "";
+  document.getElementById("hechas").innerHTML = "";
+  for (var i = 0; i < tareas.length; i++) {
+    var tarea = tareas[i];
+    var divTarea = document.createElement("div");
+    divTarea.id = tarea.id;
+    divTarea.className = "tarea";
+    divTarea.draggable = true;
+    divTarea.ondragstart = function (event) {
+      event.dataTransfer.setData("id", event.target.id);
+    };
+    var h3 = document.createElement("h3");
+    h3.innerHTML = tarea.titulo;
+    divTarea.appendChild(h3);
+    var p = document.createElement("p");
+    p.innerHTML = tarea.descripcion;
+    divTarea.appendChild(p);
+    var span = document.createElement("span");
+    span.innerHTML = tarea.fecha;
+    divTarea.appendChild(span);
+    var divBotones = document.createElement("div");
+    divBotones.className = "botones";
+    var buttonEditar = document.createElement("button");
+    buttonEditar.innerHTML = "Editar";
+    buttonEditar.onclick = function () {
+      editarTarea(this.parentNode.parentNode.id);
+    };
+    divBotones.appendChild(buttonEditar);
+    var buttonEliminar = document.createElement("button");
+    buttonEliminar.innerHTML = "Eliminar";
+    buttonEliminar.onclick = function () {
+      eliminarTarea(this.parentNode.parentNode.id);
+    };
+    divBotones.appendChild(buttonEliminar);
+    divTarea.appendChild(divBotones);
+    if (tarea.estado == "pendiente") {
+      document.getElementById("pendientes").appendChild(divTarea);
+    } else if (tarea.estado == "enproceso") {
+      document.getElementById("enproceso").appendChild(divTarea);
+    } else if (tarea.estado == "hecha") {
+      document.getElementById("hechas").appendChild(divTarea);
+    }
+  }
 }
 
-function handleDrop(event) {
-  event.preventDefault();
-  task.classList.remove("dragging");
-  task.classList.remove("over");
-
-  // Obtener el valor del select al que se está moviendo la tarea
-  const newTaskListId = event.target.parentElement.id;
-  const newTaskList = document.getElementById(newTaskListId);
-
-  // Crear un nuevo elemento de tarea a partir del HTML arrastrado
-  const html = event.dataTransfer.getData("text/html");
-  const newTask = document.createElement("li");
-  newTask.classList.add("task");
-  newTask.draggable = true;
-  newTask.innerHTML = html;
-
-  // Agregar el nuevo elemento de tarea a la lista correspondiente
-  newTaskList.appendChild(newTask);
-
-  // Eliminar la tarea original
-  task.remove();
+// Función para eliminar una tarea de la lista de tareas
+function eliminarTarea(id) {
+  for (var i = 0; i < tareas.length; i++) {
+    if (tareas[i].id == id) {
+      tareas.splice(i, 1);
+      break;
+    }
+  }
+  mostrarTareas();
 }
 
-// Agregar los escuchadores de eventos para arrastrar y soltar
-const tasks = document.querySelectorAll(".task");
-tasks.forEach((task) => {
-  task.addEventListener("dragstart", handleDragStart);
-  task.addEventListener("dragover", handleDragOver);
-  task.addEventListener("dragleave", handleDragLeave);
-  task.addEventListener("drop", handleDrop);
-});
+// Función para editar una tarea de la lista de tareas
+// Función para editar una tarea de la lista de tareas
+function editarTarea(id) {
+  for (var i = 0; i < tareas.length; i++) {
+    if (tareas[i].id == id) {
+      var titulo = prompt("Introduce el nuevo título:", tareas[i].titulo);
+      if (titulo != null) {
+        var descripcion = prompt(
+          "Introduce la nueva descripción:",
+          tareas[i].descripcion
+        );
+        if (descripcion != null) {
+          var fecha = prompt(
+            "Introduce la nueva fecha límite:",
+            tareas[i].fecha
+          );
+          if (fecha != null) {
+            tareas[i].titulo = titulo;
+            tareas[i].descripcion = descripcion;
+            tareas[i].fecha = fecha;
+            mostrarTareas();
+            break;
+          }
+        }
+      }
+    }
+  }
+}

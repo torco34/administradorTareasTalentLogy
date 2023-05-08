@@ -6,7 +6,7 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
     />
 
-    <link rel="stylesheet" type="text/css" href="./css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="./css/ejemplo.css" />
     <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css" />
     <title>Administrador de Tareas</title>
   </head>
@@ -16,19 +16,28 @@
     </header>
     <section>
       <div class="container">
-        <a href="ejemplo.html">ejemplo</a>
-        <a href="mi.html">mi</a>
+        <a href="ejemplo.html">ver</a>
         <div class="row">
-          <div class="col border">
-            <h2>Agregar Nueva Tarea</h2>
-            <form id="formulario-tarea" class="border">
-              <label for="titulo">Título:</label>
-              <input type="text" id="titulo" name="titulo" />
-              <label for="descripcion">Descripción:</label>
-              <textarea id="descripcion" name="descripcion"></textarea>
-              <label for="fecha">Fecha de Vencimiento:</label>
-              <input type="date" id="fecha" name="fecha" />
-              <button type="submit">Agregar</button>
+          <div class="container-form">
+            <form>
+              <div class="continer-input">
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  placeholder="Agregar titulo:"
+                />
+              </div>
+              <div class="container-tarea">
+                <textarea
+                  id="body"
+                  name="body"
+                  placeholder="Agregar texto"
+                ></textarea>
+              </div>
+              <div class="buton">
+                <button type="submit">Agregar</button>
+              </div>
             </form>
           </div>
           <div class="col">
@@ -36,8 +45,10 @@
             <ul id="lista-pendientes" class="lista-pendientes"></ul>
           </div>
           <div class="col">
-            <h2>En Progreso</h2>
-            <ul class="progresso-card" id="lista-en-progreso"></ul>
+            <h2>En Progreso mi</h2>
+            <ul class="progresso-card" id="lista-en-progreso">
+              ..
+            </ul>
           </div>
           <div class="col border">
             <h2>Completadas</h2>
@@ -47,6 +58,6 @@
       </div>
     </section>
     <script src="./bootstrap/js/bootstrap.min.js"></script>
-    <script src="./js/main.js"></script>
+    <script src="./js/mi.js"></script>
   </body>
 </html>

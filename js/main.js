@@ -25,6 +25,9 @@ function mostrarTareas() {
   listaPendientes.innerHTML = "";
   listaEnProgreso.innerHTML = "";
   listaCompletadas.innerHTML = "";
+
+
+
   tareas.forEach((tarea) => {
     const itemTarea = document.createElement("li");
 
@@ -56,6 +59,7 @@ function mostrarTareas() {
         break;
     }
   });
+  
 }
 // console.log(mostrarTareas());
 
@@ -96,14 +100,7 @@ listaCompletadas.addEventListener("dragover", (e) => {
   moverTarea(tarea.dataset.id, "completadas");
 });
 function moverAEstadoEnProgreso(tareaId) {
-  // Buscar la tarea correspondiente en el array de tareas
-  // const tarea = tareas.find((t) => t.id === tareaId);
-  // if (tarea) {
-  //   tarea.estado = "progreso";
-  //   mostrarTareas();
-  // } else {
-  //   console.error("No se encontró la tarea con el ID:", tareaId);
-  // }
+
 
   if (!tareaId) {
     console.error("El ID de la tarea es inválido");

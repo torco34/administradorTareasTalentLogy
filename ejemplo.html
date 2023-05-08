@@ -11,37 +11,44 @@
     <title>Administrador de Tareas</title>
   </head>
   <body>
-    <div class="container">
-      <h1>Aplicación de tareas</h1>
-
-      <!-- Sección para crear nuevas tareas -->
-      <section class="add-task">
-        <h2>Agregar tarea</h2>
-        <form>
-          <label for="task-title">Título:</label>
-          <input type="text" id="task-title" required />
-          <label for="task-description">Descripción:</label>
-          <textarea id="task-description"></textarea>
-          <label for="task-date">Fecha de vencimiento:</label>
-          <input type="date" id="task-date" required />
-          <button type="submit">Agregar tarea</button>
-        </form>
-      </section>
-
-      <!-- Sección para ver todas las tareas -->
-      <section class="all-tasks">
-        <h2>Todas las tareas</h2>
-        <ul id="pending-tasks" class="task-list">
-          <h3>Pendiente</h3>
-        </ul>
-        <ul id="in-progress-tasks" class="task-list">
-          <h3>En progreso</h3>
-        </ul>
-        <ul id="completed-tasks" class="task-list">
-          <h3>Completado</h3>
-        </ul>
-      </section>
-    </div>
+    <header>
+      <h1>Lista de Tareas</h1>
+    </header>
+    <main>
+      <div
+        id="pendientes"
+        class="columna"
+        ondrop="drop(event)"
+        ondragover="allowDrop(event)"
+      >
+        <h2>Tareas Pendientes</h2>
+      </div>
+      <div
+        id="enproceso"
+        class="columna"
+        ondrop="drop(event)"
+        ondragover="allowDrop(event)"
+      >
+        <h2>Tareas en Proceso</h2>
+      </div>
+      <div
+        id="hechas"
+        class="columna"
+        ondrop="drop(event)"
+        ondragover="allowDrop(event)"
+      >
+        <h2>Tareas Hechas</h2>
+      </div>
+      <form onsubmit="agregarTarea(event)">
+        <label for="titulo">Título:</label>
+        <input type="text" id="titulo" name="titulo" />
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" name="descripcion"></textarea>
+        <label for="fecha">Fecha límite:</label>
+        <input type="date" id="fecha" name="fecha" />
+        <button type="submit">Crear tarea</button>
+      </form>
+    </main>
 
     <script src="./bootstrap/js/bootstrap.min.js"></script>
     <script src="./js/ejemplo.js"></script>

@@ -148,3 +148,39 @@ newTaskForm.addEventListener("submit", (event) => {
 });
 
 //
+
+
+
+
+
+
+
+
+
+
+
+
+
+let nombre = "torcoroma"
+let numerica = 5
+let boleani = true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

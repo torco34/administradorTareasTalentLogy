@@ -1,134 +1,172 @@
-const formularioTarea = document.querySelector("#formulario-tarea");
-const inputTitulo = document.querySelector("#titulo");
-const inputDescripcion = document.querySelector("#descripcion");
-const inputFecha = document.querySelector("#fecha");
-const listaPendientes = document.querySelector("#lista-pendientes");
-const listaEnProgreso = document.querySelector("#lista-en-progreso");
-const listaCompletadas = document.querySelector("#lista-completadas");
-// Crear array vacío para almacenar las tareas
+// Variables globales
+let pendientes = document.getElementById("pendientes");
+let enProceso = document.getElementById("enproceso");
+let hechas = document.getElementById("hechas");
 let tareas = [];
-// Función para crear una tarea
-function crearTarea(titulo, descripcion, fecha) {
-  const tarea = {
+console.log(pendientes);
+
+// Verificar si hay datos en localStorage
+if (localStorage.getItem("tareas")) {
+  tareas = JSON.parse(localStorage.getItem("tareas"));
+
+  mostrarTareas();
+}
+tareas = JSON.parse(localStorage.getItem("tareas")) || {
+  pendiente: [],
+  progreso: [],
+  completas: [],
+};
+
+// Función para agregar una tarea a la lista de tareas
+function agregarTarea(event) {
+  event.preventDefault();
+  let titulo = document.getElementById("titulo").value;
+  let descripcion = document.getElementById("descripcion").value;
+  let fecha = document.getElementById("fecha").value;
+  let tarea = {
     id: Date.now(),
-    titulo,
-    descripcion,
-    fecha,
-    lista: "pendientes",
+    titulo: titulo,
+    descripcion: descripcion,
+    fecha: fecha,
+    estado: "pendiente",
   };
   tareas.push(tarea);
   mostrarTareas();
+  document.getElementById("titulo").value = "";
+  document.getElementById("descripcion").value = "";
+  document.getElementById("fecha").value = "";
+  // Guardar datos en localStorage
+  localStorage.setItem("tareas", JSON.stringify(tareas));
 }
-// crearTarea();
-// Función para mostrar las tareas en las diferentes listas
+
+// Función para mostrar la lista de tareas
 function mostrarTareas() {
-  listaPendientes.innerHTML = "";
-  listaEnProgreso.innerHTML = "";
-  listaCompletadas.innerHTML = "";
+  pendientes.innerHTML = "";
+  enProceso.innerHTML = "";
+  hechas.innerHTML = "";
+  for (let i = 0; i < tareas.length; i++) {
+    let tarea = tareas[i];
+    let divTarea = document.createElement("div");
 
-
-
-  tareas.forEach((tarea) => {
-    const itemTarea = document.createElement("li");
-
-    itemTarea.innerHTML = `
-        <strong>${tarea.titulo}</strong>
-        <p>${tarea.descripcion}</p>
-        <p>${tarea.fecha}</p>
-      `;
-    // console.log(itemTarea.innerHTML);
-    itemTarea.draggable = true;
-    // console.log(itemTarea.draggable);
-    itemTarea.addEventListener("dragstart", (e) => {
-      console.log(itemTarea);
-      e.dataTransfer.setData("text/plain", tarea.id);
+    divTarea.id = tarea.id;
+    divTarea.className = "tarea";
+    divTarea.draggable = true;
+    divTarea.addEventListener("dragstart", (e) => {
+      e.dataTransfer.setData("id", e.target.id);
       e.currentTarget.classList.add("dragging");
     });
-    itemTarea.addEventListener("dragend", (e) => {
+    divTarea.addEventListener("dragend", (e) => {
       e.currentTarget.classList.remove("dragging");
     });
-    switch (tarea.lista) {
-      case "pendientes":
-        listaPendientes.appendChild(itemTarea);
-        break;
-      case "progreso":
-        listaEnProgreso.appendChild(itemTarea);
-        break;
-      case "completadas":
-        listaCompletadas.appendChild(itemTarea);
-        break;
+
+    let h3 = document.createElement("h3");
+    h3.classList = "color";
+    h3.innerHTML = tarea.titulo;
+    divTarea.appendChild(h3);
+    let p = document.createElement("p");
+   
+    p.innerHTML = tarea.descripcion;
+    divTarea.appendChild(p);
+    let span = document.createElement("span");
+    span.innerHTML = tarea.fecha;
+    divTarea.appendChild(span);
+    let divBotones = document.createElement("div");
+    divBotones.className = "botones";
+    let buttonEditar = document.createElement("button");
+    buttonEditar.innerHTML = "Editar";
+    buttonEditar.onclick = function () {
+      editarTarea(this.parentNode.parentNode.id);
+    };
+    divBotones.appendChild(buttonEditar);
+    let buttonEliminar = document.createElement("button");
+    buttonEliminar.innerHTML = "Eliminar";
+    buttonEliminar.onclick = function () {
+      eliminarTarea(this.parentNode.parentNode.id);
+    };
+    divBotones.appendChild(buttonEliminar);
+    divTarea.appendChild(divBotones);
+    if (tarea.estado == "pendiente") {
+      document.getElementById("pendientes").appendChild(divTarea);
+    } else if (tarea.estado == "enproceso") {
+      document.getElementById("enproceso").appendChild(divTarea);
+    } else if (tarea.estado == "hecha") {
+      document.getElementById("hechas").appendChild(divTarea);
     }
-  });
-  
+
+    divTarea.addEventListener("dragend", (e) => {
+      e.currentTarget.classList.remove("dragging");
+      const tareaId = e.currentTarget.id;
+      let tarea;
+      for (let i = 0; i < tareas.length; i++) {
+        if (tareas[i].id == tareaId) {
+          tarea = tareas[i];
+          break;
+        }
+      }
+      if (e.currentTarget.parentNode == pendientes) {
+        tarea.estado = "pendiente";
+      } else if (e.currentTarget.parentNode == enProceso) {
+        tarea.estado = "enproceso";
+      } else if (e.currentTarget.parentNode == hechas) {
+        tarea.estado = "hecha";
+      }
+      localStorage.setItem("tareas", JSON.stringify(tareas));
+    });
+  }
 }
-// console.log(mostrarTareas());
 
-function moverTarea(id, lista) {
-  const index = tareas.findIndex((t) => t.id === id);
-  if (index !== -1) {
-    tareas[index].lista = lista;
-    mostrarTareas();
+// Función para eliminar una tarea de la lista de tareas
+function eliminarTarea(id) {
+  for (let i = 0; i < tareas.length; i++) {
+    if (tareas[i].id == id) {
+      tareas.splice(i, 1);
+      break;
+    }
   }
-  // let tarea = tareas.find((t) => t.id === id);
-
-  // tarea.lista = lista;
-  // mostrarTareas();
-}
-// Evento para enviar el formulario y agregar una nueva tarea
-formularioTarea.addEventListener("submit", (e) => {
-  e.preventDefault();
-  crearTarea(inputTitulo.value, inputDescripcion.value, inputFecha.value);
-  // crearTarea(inputTitulo.value, inputDescripcion.value, inputFecha.value);
-  formularioTarea.reset();
-});
-listaPendientes.addEventListener("dragover", (e) => {
-  e.preventDefault();
-  const tarea = document.querySelector(".dragging");
-  listaPendientes.appendChild(tarea);
-  moverTarea(tarea.dataset.id, "pendientes");
-});
-listaEnProgreso.addEventListener("dragover", (e) => {
-  e.preventDefault();
-  const tarea = document.querySelector(".dragging");
-  listaEnProgreso.appendChild(tarea);
-  moverTarea(tarea.dataset.id, "progreso");
-});
-listaCompletadas.addEventListener("dragover", (e) => {
-  e.preventDefault();
-  const tarea = document.querySelector(".dragging");
-  listaCompletadas.appendChild(tarea);
-  moverTarea(tarea.dataset.id, "completadas");
-});
-function moverAEstadoEnProgreso(tareaId) {
-
-
-  if (!tareaId) {
-    console.error("El ID de la tarea es inválido");
-    return;
-  }
-
-  // Buscar la tarea correspondiente en el array de tareas
-  const tarea = tareas.find((t) => t.id === tareaId);
-
-  // Verificar si se encontró la tarea
-  if (!tarea) {
-    console.error(`No se encontró la tarea con el ID: ${tareaId}`);
-    return;
-  }
-
-  // Cambiar el estado de la tarea
-  tarea.estado = "progreso";
-
-  // Actualizar la lista de tareas en la página
+  localStorage.setItem("tareas", JSON.stringify(tareas));
   mostrarTareas();
 }
+// Función para editar una tarea de la lista de tareas
+function editarTarea(id) {
+  for (let i = 0; i < tareas.length; i++) {
+    if (tareas[i].id == id) {
+      let titulo = prompt("Introduce el nuevo título:", tareas[i].titulo);
+      if (titulo != null) {
+        let descripcion = prompt(
+          "Introduce la nueva descripción:",
+          tareas[i].descripcion
+        );
+        if (descripcion != null) {
+          let fecha = prompt(
+            "Introduce la nueva fecha límite:",
+            tareas[i].fecha
+          );
+          if (fecha != null) {
+            tareas[i].titulo = titulo;
+            tareas[i].descripcion = descripcion;
+            tareas[i].fecha = fecha;
+            localStorage.setItem("tareas", JSON.stringify(tareas));
+            mostrarTareas();
+            break;
+          }
+        }
+      }
+    }
+  }
+}
 
-// Evento para permitir arrastrar y soltar tareas para moverlas entre diferentes listas
-listaEnProgreso.addEventListener("dragover", (e) => {
+pendientes.addEventListener("dragover", (e) => {
   e.preventDefault();
   const tarea = document.querySelector(".dragging");
-  listaEnProgreso.appendChild(tarea);
-
-  // Mover la tarea a la lista "En Progreso" en el array de tareas
-  moverAEstadoEnProgreso(tarea.dataset.id);
+  pendientes.appendChild(tarea);
+});
+enProceso.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  const tarea = document.querySelector(".dragging");
+  enProceso.appendChild(tarea);
+});
+hechas.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  const tarea = document.querySelector(".dragging");
+  hechas.appendChild(tarea);
 });

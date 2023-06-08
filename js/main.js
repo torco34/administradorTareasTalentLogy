@@ -3,23 +3,17 @@ let pendientes = document.getElementById("pendientes");
 let enProceso = document.getElementById("enproceso");
 let hechas = document.getElementById("hechas");
 let tareas = [];
-console.log(pendientes);
 
 // Verificar si hay datos en localStorage
 if (localStorage.getItem("tareas")) {
   tareas = JSON.parse(localStorage.getItem("tareas"));
-
   mostrarTareas();
 }
-tareas = JSON.parse(localStorage.getItem("tareas")) || {
-  pendiente: [],
-  progreso: [],
-  completas: [],
-};
 
 // Función para agregar una tarea a la lista de tareas
 function agregarTarea(event) {
   event.preventDefault();
+
   let titulo = document.getElementById("titulo").value;
   let descripcion = document.getElementById("descripcion").value;
   let fecha = document.getElementById("fecha").value;
@@ -64,7 +58,7 @@ function mostrarTareas() {
     h3.innerHTML = tarea.titulo;
     divTarea.appendChild(h3);
     let p = document.createElement("p");
-   
+
     p.innerHTML = tarea.descripcion;
     divTarea.appendChild(p);
     let span = document.createElement("span");
